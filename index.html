@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
 <title>JavaScript Aspect Ratio Slider</title>
@@ -23,14 +24,15 @@ function init(){
 	{
 	marginsize[i] = liItems[i].children[0].children[0].width;
 	var marginwidth = (800 - marginsize[i]) /2;//to get the padding we need to centralise the margin
-	var selector = '#image' + i;
+	var selector = 'li#image' + i;
 	
 	var value = marginwidth;
 	for(var j=0; j < document.styleSheets.length; j++){
 	 try { 
-	 document.styleSheets[j].insertRule(selector+ ' {margin-left:'+value+'px;margin-right:'+value+'px;}', document.styleSheets[j].cssRules.length);
+	 document.styleSheets[j].insertRule(selector+ ' {margin-left:'+value+'px;margin-right:'+value+'px;width:'+marginsize[i]+'px;}', document.styleSheets[j].cssRules.length);
+
      	} 
-		catch(err) {try { document.styleSheets[j].addRule(selector, ' {margin-left:'+value+'px;margin-right:'+value+'px;}');} catch(err) {}}//IE
+		catch(err) {try { document.styleSheets[j].addRule(selector, ' {margin-left:'+value+'px;margin-right:'+value+'px;width:'+marginsize[i]+'px;}');} catch(err) {}}//IE
 	
 	}
 	
@@ -140,13 +142,16 @@ setTimeout(ThenClickNext, 3000);  //even if the image isn't hovered
 ThenClickNext();
 </script>
 <style>
+body{
+all:none;
+}
 
 img.slider{
 		margin-left:0px;/*centeralise image*/
 		margin-right:0px;
 		max-width:800px;/*no bigger than 800px and no taller than 350px where 350px = 100% height*/
 		max-height:350px;
-		height:100%;
+		min-height:350px;/*fix for ie height when doctype declared*/
 		}
 .container{
 	width:800px;/*container with buttons and image slider in it*/
@@ -181,7 +186,9 @@ img.slider{
 #image_slider li{
 	position: relative;
 	float: left;
+
 }
+
 .nvgt{
 	position:absolute;
 	top: 120px;
@@ -208,7 +215,7 @@ img.slider{
 	margin-top:10px;
 }
 #pager li{
-	padding: 0px;
+	padding:0px;
 	margin:5px;
 	width:20px;
 	height:20px;
@@ -225,14 +232,20 @@ img.slider{
 }
 div.txt
 {
- top:-20px; /*position the text so it is just on the picture*/
+ top:-25px; /*position the text so it is just on the picture*/
  position:relative;
 background-color: rgba(0, 0, 0, 0.6);
  color:white;
+ height:25px;
  }
  a.txt
  {
   text-decoration: none;
+ }
+ul#pager
+ {
+ margin-left:auto;
+ margin-right:auto;
  }
  </style>
  </head>
@@ -240,18 +253,20 @@ background-color: rgba(0, 0, 0, 0.6);
  <div class="container">
 			<div class="slider_wrapper">
 				<ul id="image_slider">
-					<li><a class="txt" href="pets.php"><img class="slider" id='image0' src="images/1.jpg"><div class="txt" id="image0">Text Here</div></a></li>
-					<li><a class="txt" href="pets.php"><img class="slider" id='image1' src="images/2.jpg"><div class="txt" id="image1">More Text Here</div></a></li>
-					<li><a class="txt" href="weddings.php"><img class="slider" id="image2" src="images/3.jpg"></a></li>
-					<li><a class="txt" href="weddings.php"><img class="slider" id="image3" src="images/4.jpg"><div class="txt" id="image3">No text there, but some here</div></a></li>
-					<li><a class="txt" href="art.php"><img class="slider" id='image4' src="images/5.jpg"><div class="txt" id="image4">Text?</div></a></li> 
+					<li id='image0'><a class="txt" href="#"><img id='image0' class="slider" src="images/1.jpg"><div class="txt" id="image0">Text Here</div></a></li>
+					<li id='image1'><a class="txt" href="#"><img id='image1' class="slider" src="images/2.jpg"><div class="txt" id="image1">More Text Here</div></a></li>
+					<li id='image2'><a class="txt" href="#"><img id='image2' class="slider" src="images/3.jpg"></a></li>
+					<li id='image3'><a class="txt" href="#"><img id='image3' class="slider" src="images/4.jpg"><div class="txt" id="image3">No text there, but some here</div></a></li>
+					<li id='image4'><a class="txt" href="#"><img id='image4' class="slider" src="images/5.jpg"><div class="txt" id="image4">Text?</div></a></li> 
 					
 				</ul>					
 				<span class="nvgt" id="prev"></span>
 				<span class="nvgt" id="next"></span>		
 			</div>
+			<div class="centered">
 			<ul id="pager">
 			</ul>
+			</div>
 		</div>
  </body>
 </html>
