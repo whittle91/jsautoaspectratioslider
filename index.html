@@ -1,0 +1,258 @@
+<html>
+<head>
+<title>JavaScript Aspect Ratio Slider</title>
+<script>
+//1. set ul width 
+//2. image when click prev/next button
+//3. set width of text
+var ul;
+var liItems;
+var imageNumber;
+var imageWidth;
+var prev, next;
+var currentPostion = 0;
+var currentImage = 0;
+var marginsize = new Array();
+
+function init(){
+	ul = document.getElementById('image_slider');
+	liItems = ul.children;
+	imageNumber = liItems.length;
+	imageWidth = 800;//width of our slider window
+	for (var i =0;i<imageNumber;i++)
+	{
+	marginsize[i] = liItems[i].children[0].children[0].width;
+	var marginwidth = (800 - marginsize[i]) /2;//to get the padding we need to centralise the margin
+	var selector = '#image' + i;
+	
+	var value = marginwidth;
+	for(var j=0; j < document.styleSheets.length; j++){
+	 try { 
+	 document.styleSheets[j].insertRule(selector+ ' {margin-left:'+value+'px;margin-right:'+value+'px;}', document.styleSheets[j].cssRules.length);
+     	} 
+		catch(err) {try { document.styleSheets[j].addRule(selector, ' {margin-left:'+value+'px;margin-right:'+value+'px;}');} catch(err) {}}//IE
+	
+	}
+	
+	}
+	ul.style.width = parseInt(imageWidth * imageNumber) + 'px';
+	prev = document.getElementById("prev");
+	next = document.getElementById("next");
+	generatePager(imageNumber);
+	prev.onclick = function(){ onClickPrev();};
+	next.onclick = function(){ onClickNext();};
+}
+
+function animate(opts){
+	var start = new Date;
+	var id = setInterval(function(){
+		var timePassed = new Date - start;
+		var progress = timePassed / opts.duration;
+		if (progress > 1){
+			progress = 1;
+		}
+		var delta = opts.delta(progress);
+		opts.step(delta);
+		if (progress == 1){
+			clearInterval(id);
+			opts.callback();
+		}
+	}, opts.delay || 17);
+	//return id;
+}
+
+function slideTo(imageToGo){
+	var direction;
+	var numOfImageToGo = Math.abs(imageToGo - currentImage);
+	// slide toward left
+
+	direction = currentImage > imageToGo ? 1 : -1;
+	currentPostion = -1 * currentImage * imageWidth;
+	var opts = {
+		duration:300,
+		delta:function(p){return p;},
+		step:function(delta){
+			ul.style.left = parseInt(currentPostion + direction * delta * imageWidth * numOfImageToGo) + 'px';
+		},
+		callback:function(){currentImage = imageToGo;}	
+	};
+	animate(opts);
+}
+
+function onClickPrev(){
+	if (currentImage == 0){
+		slideTo(imageNumber - 1);
+	} 		
+	else{
+		slideTo(currentImage - 1);
+	}		
+}
+
+function onClickNext(){
+	if (currentImage == imageNumber - 1){
+		slideTo(0);
+	}		
+	else{
+		slideTo(currentImage + 1);
+	}		
+}
+
+function generatePager(imageNumber){	
+	var pageNumber;
+	var pagerDiv = document.getElementById('pager');
+	for (i = 0; i < imageNumber; i++){
+		var li = document.createElement('li');
+		pageNumber = document.createTextNode(parseInt(i + 1));
+		li.appendChild(pageNumber);
+		pagerDiv.appendChild(li);
+		li.onclick = function(i){
+			return function(){
+				slideTo(i);
+			}
+		}(i);
+	}	
+	var computedStyle = document.defaultView.getComputedStyle(li, null);
+	var liWidth = parseInt(li.offsetWidth);
+	var liMargin = parseInt(computedStyle.margin.replace('px',""));
+	pagerDiv.style.width = parseInt((liWidth + liMargin * 2) * imageNumber) + 'px';
+}
+window.onload = init;
+function isHover(e) {
+    if (e !== null){return (e.parentElement.querySelector(':hover') === e);}
+}
+function ThenClickNext(){
+ if(isHover(document.getElementById('image_slider')))
+ {
+ setTimeout(ThenClickNext, 3000); //automatically check every three seconds
+ }
+ else
+ {
+	if (currentImage == imageNumber - 1){
+		slideTo(0);
+	}		
+	else{
+		slideTo(currentImage + 1);
+	}	
+	
+setTimeout(ThenClickNext, 3000);  //even if the image isn't hovered
+}
+}
+ThenClickNext();
+</script>
+<style>
+
+img.slider{
+		margin-left:0px;/*centeralise image*/
+		margin-right:0px;
+		max-width:800px;/*no bigger than 800px and no taller than 350px where 350px = 100% height*/
+		max-height:350px;
+		height:100%;
+		}
+.container{
+	width:800px;/*container with buttons and image slider in it*/
+	height:400px;
+	padding:0px;
+	border:1px solid gray;
+	-webkit-box-sizing:border-box;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	background-color: rgba(0,0,0,0.6);	/*slightly trancelucent for effect*/
+	text-align: center;
+	margin-left:auto;
+	margin-right:auto;
+}
+.slider_wrapper{
+	overflow: hidden;/*to hide the extra images that will overflow the container*/
+	position:relative;
+	height:350px;
+	top:auto;
+}
+#image_slider{
+
+	position: relative;
+	height: auto;
+	list-style: none;
+	overflow: hidden;
+	float: left;
+	/*fix browser padding issues with ul tag */
+	padding:0px;
+	margin:auto;
+}
+#image_slider li{
+	position: relative;
+	float: left;
+}
+.nvgt{
+	position:absolute;
+	top: 120px;
+	height: 50px;
+	width: 30px;
+	opacity: 0.6;
+}
+.nvgt:hover{
+	opacity: 0.9;
+}
+#prev{
+	background: #000 url('images/prev.png') no-repeat center;
+	left: 0px;
+}
+#next{
+	background: #000 url('images/next.png') no-repeat center;
+	right: 0px;
+}
+#pager{
+	padding:0px;
+	position:relative;
+	height:50px;
+	margin:auto;
+	margin-top:10px;
+}
+#pager li{
+	padding: 0px;
+	margin:5px;
+	width:20px;
+	height:20px;
+	border:1px solid gray;
+	background-color:rgba(0,0,0,0.5);
+	color:white;
+	list-style: none;
+	float:left;
+	border-radius: 3px;
+	cursor: pointer;
+}
+#pager li:hover{
+	background-color:rgba(0,0,0,1);
+}
+div.txt
+{
+ top:-20px; /*position the text so it is just on the picture*/
+ position:relative;
+background-color: rgba(0, 0, 0, 0.6);
+ color:white;
+ }
+ a.txt
+ {
+  text-decoration: none;
+ }
+ </style>
+ </head>
+ <body>
+ <div class="container">
+			<div class="slider_wrapper">
+				<ul id="image_slider">
+					<li><a class="txt" href="pets.php"><img class="slider" id='image0' src="images/1.jpg"><div class="txt" id="image0">Text Here</div></a></li>
+					<li><a class="txt" href="pets.php"><img class="slider" id='image1' src="images/2.jpg"><div class="txt" id="image1">More Text Here</div></a></li>
+					<li><a class="txt" href="weddings.php"><img class="slider" id="image2" src="images/3.jpg"></a></li>
+					<li><a class="txt" href="weddings.php"><img class="slider" id="image3" src="images/4.jpg"><div class="txt" id="image3">No text there, but some here</div></a></li>
+					<li><a class="txt" href="art.php"><img class="slider" id='image4' src="images/5.jpg"><div class="txt" id="image4">Text?</div></a></li> 
+					
+				</ul>					
+				<span class="nvgt" id="prev"></span>
+				<span class="nvgt" id="next"></span>		
+			</div>
+			<ul id="pager">
+			</ul>
+		</div>
+ </body>
+</html>
+ 
