@@ -43,14 +43,26 @@ function init(){
 	generatePager(imageNumber);
 	prev.onclick = function(){ onClickPrev();};
 	next.onclick = function(){ onClickNext();};
-	var pagermargin = (liItems.length * 32) * 2;
+	var pagermargin = (800 - (liItems.length * 32)) /2;
+	var pagerheight = 500 + (25 * (Math.floor(liItems.length / 25)));
 	if(pagermargin >= 0){
 	for(var j=0; j < document.styleSheets.length; j++){
 	 try { 
-	 document.styleSheets[j].insertRule('#pager {margin-left:'+pagermargin+'px;}', document.styleSheets[j].cssRules.length);
+	 document.styleSheets[j].insertRule('#pager {margin-left:'+pagermargin+'px;} div.container{height:'+pagerheight+'px;}', document.styleSheets[j].cssRules.length);
 
      	} 
-		catch(err) {try { document.styleSheets[j].addRule('#pager', ' {margin-left:'+pagermargin+'px;}');} catch(err) {}}//IE
+		catch(err) {try { document.styleSheets[j].addRule('#pager', ' {margin-left:'+pagermargin+'px;}'); document.styleSheets[j].addRule('div.container', ' {height:'+pagerheight+'px;}');} catch(err) {}}//IE
+	
+	}
+	}
+	else
+	{
+	for(var j=0; j < document.styleSheets.length; j++){
+	 try { 
+	 document.styleSheets[j].insertRule('div.container{height:'+pagerheight+'px;}', document.styleSheets[j].cssRules.length);
+
+     	} 
+		catch(err) {try {  document.styleSheets[j].addRule('div.container', ' {height:'+pagerheight+'px;}');} catch(err) {}}//IE
 	
 	}
 	}
@@ -154,20 +166,17 @@ ThenClickNext();
 
 </script>
 <style>
-body{
-all:none;
-}
 
 img.slider{
 		margin-left:0px;/*centeralise image*/
 		margin-right:0px;
 		max-width:800px;/*no bigger than 800px and no taller than 350px where 350px = 100% height*/
-		max-height:350px;
-		min-height:350px;/*fix for ie height when doctype declared*/
+		max-height:450px;
+		min-height:450px;/*fix for ie height when doctype declared*/
 		}
 .container{
 	width:800px;/*container with buttons and image slider in it*/
-	height:400px;
+	height:500px;
 	padding:0px;
 	border:1px solid gray;
 	-webkit-box-sizing:border-box;
@@ -181,7 +190,7 @@ img.slider{
 .slider_wrapper{
 	overflow: hidden;/*to hide the extra images that will overflow the container*/
 	position:relative;
-	height:350px;
+	height:450px;
 	top:auto;
 }
 #image_slider{
@@ -203,7 +212,7 @@ img.slider{
 
 .nvgt{
 	position:absolute;
-	top: 120px;
+	top: 220px;
 	height: 50px;
 	width: 30px;
 	opacity: 0.6;
@@ -225,6 +234,8 @@ img.slider{
 	height:50px;
 	margin:auto;
 	margin-top:10px;
+	max-width:800px;
+	width:800px;
 }
 #pager li{
 	padding:0px;
@@ -254,14 +265,11 @@ background-color: rgba(0, 0, 0, 0.6);
  {
   text-decoration: none;
  }
-ul#pager
- {
-
- }
  div.centered{
-  width:800px;
+ max-width:800px;
  margin-left:auto;
  margin-right:auto;
+ 
  }
  </style>
  </head>
@@ -274,6 +282,33 @@ ul#pager
 					<li id='image2'><a class="txt" href="#"><img id='image2' class="slider" src="images/3.jpg"></a></li>
 					<li id='image3'><a class="txt" href="#"><img id='image3' class="slider" src="images/4.jpg"><div class="txt" id="image3">No text there, but some here</div></a></li>
 					<li id='image4'><a class="txt" href="#"><img id='image4' class="slider" src="images/5.jpg"><div class="txt" id="image4">Text?</div></a></li> 
+					<li id='image5'><a class="txt" href="#"><img id='image5' class="slider" src="images/1.jpg"><div class="txt" id="image5">Text Here</div></a></li>
+					<li id='image6'><a class="txt" href="#"><img id='image6' class="slider" src="images/2.jpg"><div class="txt" id="image6">More Text Here</div></a></li>
+					<li id='image7'><a class="txt" href="#"><img id='image7' class="slider" src="images/3.jpg"></a></li>
+					<li id='image8'><a class="txt" href="#"><img id='image8' class="slider" src="images/4.jpg"><div class="txt" id="image8">No text there, but some here</div></a></li>
+					<li id='image9'><a class="txt" href="#"><img id='image9' class="slider" src="images/5.jpg"><div class="txt" id="image9">Text?</div></a></li> 
+					<li id='image10'><a class="txt" href="#"><img id='image10' class="slider" src="images/1.jpg"><div class="txt" id="image10">Text Here</div></a></li>
+					<li id='image11'><a class="txt" href="#"><img id='image11' class="slider" src="images/2.jpg"><div class="txt" id="image11">More Text Here</div></a></li>
+					<li id='image12'><a class="txt" href="#"><img id='image12' class="slider" src="images/3.jpg"></a></li>
+					<li id='image13'><a class="txt" href="#"><img id='image13' class="slider" src="images/4.jpg"><div class="txt" id="image13">No text there, but some here</div></a></li>
+					<li id='image14'><a class="txt" href="#"><img id='image14' class="slider" src="images/5.jpg"><div class="txt" id="image14">Text?</div></a></li> 
+					<li id='image15'><a class="txt" href="#"><img id='image15' class="slider" src="images/1.jpg"><div class="txt" id="image15">Text Here</div></a></li>
+					<li id='image16'><a class="txt" href="#"><img id='image16' class="slider" src="images/2.jpg"><div class="txt" id="image16">More Text Here</div></a></li>
+					<li id='image17'><a class="txt" href="#"><img id='image17' class="slider" src="images/3.jpg"></a></li>
+					<li id='image18'><a class="txt" href="#"><img id='image18' class="slider" src="images/4.jpg"><div class="txt" id="image18">No text there, but some here</div></a></li>
+					<li id='image19'><a class="txt" href="#"><img id='image19' class="slider" src="images/5.jpg"><div class="txt" id="image19">Text?</div></a></li> 
+					<li id='image20'><a class="txt" href="#"><img id='image20' class="slider" src="images/1.jpg"><div class="txt" id="image20">Text Here</div></a></li>
+					<li id='image21'><a class="txt" href="#"><img id='image21' class="slider" src="images/2.jpg"><div class="txt" id="image21">More Text Here</div></a></li>
+					<li id='image22'><a class="txt" href="#"><img id='image22' class="slider" src="images/3.jpg"></a></li>
+					<li id='image23'><a class="txt" href="#"><img id='image23' class="slider" src="images/4.jpg"><div class="txt" id="image23">No text there, but some here</div></a></li>
+					<li id='image24'><a class="txt" href="#"><img id='image24' class="slider" src="images/5.jpg"><div class="txt" id="image24">Text?</div></a></li> 
+					<li id='image25'><a class="txt" href="#"><img id='image25' class="slider" src="images/1.jpg"><div class="txt" id="image25">Text Here</div></a></li>
+					<li id='image26'><a class="txt" href="#"><img id='image26' class="slider" src="images/2.jpg"><div class="txt" id="image26">More Text Here</div></a></li>
+					<li id='image27'><a class="txt" href="#"><img id='image27' class="slider" src="images/3.jpg"></a></li>
+					<li id='image28'><a class="txt" href="#"><img id='image28' class="slider" src="images/4.jpg"><div class="txt" id="image28">No text there, but some here</div></a></li>
+					<li id='image29'><a class="txt" href="#"><img id='image29' class="slider" src="images/5.jpg"><div class="txt" id="image29">Text?</div></a></li> 
+										
+
 					
 				</ul>					
 				<span class="nvgt" id="prev"></span>
