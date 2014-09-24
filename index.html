@@ -146,9 +146,9 @@ function isHover(e) {
     if (e !== null){return (e.parentElement.querySelector(':hover') === e);}
 }
 function ThenClickNext(){
- if(isHover(document.getElementById('image_slider')))
+if(isHover(document.getElementById('image_slider')) || isHover(document.getElementById('prev')) || isHover(document.getElementById('next')) ||isHover(document.getElementById('pager')))
  {
- setTimeout(ThenClickNext, 3000); //automatically check every three seconds
+ 
  }
  else
  {
@@ -158,12 +158,15 @@ function ThenClickNext(){
 	else{
 		slideTo(currentImage + 1);
 	}	
-	
-setTimeout(ThenClickNext, 3000);  //even if the image isn't hovered
 }
+setTimeout(ThenClickNext, 5000);
 }
-ThenClickNext();
-
+var readyStateCheckInterval = setInterval(function() {
+    if (document.readyState === "complete") {
+        setTimeout(ThenClickNext, 5000);
+        clearInterval(readyStateCheckInterval);
+    }
+}, 10);
 </script>
 <style>
 
